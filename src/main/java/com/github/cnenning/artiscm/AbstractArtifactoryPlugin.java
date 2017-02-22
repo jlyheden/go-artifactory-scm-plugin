@@ -435,11 +435,18 @@ public abstract class AbstractArtifactoryPlugin implements GoPlugin {
 		map.put("revisionComment", rev.comment);
 		if (rev.files != null) {
 			List<Object> files = new ArrayList<>(rev.files.size());
+			Map<String, String> dataMap = new HashMap<>();
+			int i = 0;
 			for (String filename : rev.files) {
+				i++;
 				Map<String, String> file = new HashMap<>();
 				file.put("fileName", filename);
 				file.put("action", "added");
 				files.add(file);
+				dataMap.put("file" + i, filename);
+			}
+			if (!dataMap.isEmpty()) {
+				map.put("data", dataMap);
 			}
 			if (!files.isEmpty()) {
 				map.put("modifiedFiles", files);
